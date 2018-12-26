@@ -19,7 +19,8 @@ view = imgView.getView();
 def callback():
     print imgView.getName()[:100]
     b64_string = imgView.getName()
-    img = imread(io.BytesIO(base64.b64decode(b64_string)))
+    step1 = base64.b64decode(b64_string)
+    # img = imread(io.BytesIO())
     # plt.figure()
     # plt.imshow(img, cmap="gray")
 
