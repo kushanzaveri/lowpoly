@@ -5,7 +5,6 @@ import numpy as np
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.layouts import row, column
 from bokeh.models import CustomJS
-from bokeh.models.glyphs import Text
 
 
 from bokeh.models.widgets import Button

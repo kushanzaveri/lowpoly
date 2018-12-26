@@ -1,6 +1,8 @@
 from bokeh.plotting import figure
 from bokeh.models import Range1d
-import matplotlib.image as mpimg
+import base64
+import io
+from imageio import imread
 
 height = 500
 width = 500
@@ -23,9 +25,9 @@ def default(value, default_value):
     if value is None:
         return default_value
     return value
-    
-def loadImage(file):
-    imgData = mpimg.imread(file)
+
+def loadImage(data_uri):
+    imgData = imread(io.BytesIO(base64.b64decode(data_uri)))
     return imgData
 
 
