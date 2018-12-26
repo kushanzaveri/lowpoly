@@ -63,7 +63,7 @@ def generate_smart_points(image, num_points=100,
 
     points = np.array(points)
     points = np.concatenate([points, generate_edge_points([xmax, ymax])])
-    return points;
+    return points
 
 
 

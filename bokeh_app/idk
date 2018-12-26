@@ -1,0 +1,129 @@
+__code__ = """ 
+        function read_image(file){
+            var reader = new FileReader();
+            reader.onload = load_handler;
+            reader.onerror = error_handler;
+            reader.readAsDataURL(file)
+        }
+
+        function getImageDimensions(file) {
+            return new Promise (function (resolved, rejected) {
+                var i = new Image()
+                i.onload = function(){
+                    resolved(
+                        {w: xmax, 
+                        h: ymax * (i.height/i.width)}
+                    )
+                };
+                i.src = file
+            })
+        }
+
+        async function load_handler(event) {
+            var b64string = event.target.result;
+            var dimensions = await getImageDimensions(b64string)
+            console.log(dimensions.w + " " + dimensions.h + " " + (dimensions.h/dimensions.w))
+            
+            console.log(dimensions.w + " " + dimensions.h + " " + (dimensions.h/dimensions.w))
+            source.data['xdim'] = [dimensions.w];
+            source.data['ydim'] = [dimensions.h];
+            img_url = [b64string];
+            source.data['url'] = [b64string];
+            source.change.emit();
+            // also update matplotlib image data
+        }
+
+        function error_handler(evt) {
+            if(evt.target.error.name == "NotReadableError") {
+                alert("Can't read file!");
+            }
+        }
+
+        var input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*')
+        input.onchange = function(){
+            if (window.FileReader) { read_image(input.files[0]) }
+            else { alert('FileReader is not supported in this browser');}
+        }
+        input.click();
+        """
+
+
+
+
+#     # offset = 50
+#     # xmax = 1024
+#     # ymax = 1024
+#     # source = None
+#     # img_url = None #"images/face.jpg" #default image
+
+#     __code__ = """
+#     function read_image(file){
+#         var reader = new FileReader();
+#         reader.onload = load_handler;
+#         reader.onerror = error_handler;
+#         reader.readAsDataURL(file)
+#     }
+
+#     function getImageDimensions(file) {
+#     return new Promise (function (resolved, rejected) {
+#         var i = new Image()
+#         i.onload = function(){
+#             resolved(
+#                 {w: xmax, 
+#                 h: ymax * (i.height/i.width)}
+#             )
+#         };
+#         i.src = file
+#     })
+#     }
+
+#     async function load_handler(event) {
+#         var b64string = event.target.result;
+#         var dimensions = await getImageDimensions(b64string)
+#         console.log(dimensions.w + " " + dimensions.h + " " + (dimensions.h/dimensions.w))
+        
+#         console.log(dimensions.w + " " + dimensions.h + " " + (dimensions.h/dimensions.w))
+#         source.data['xdim'] = [dimensions.w];
+#         source.data['ydim'] = [dimensions.h];
+#         img_url = [b64string];
+#         source.data['url'] = [b64string];
+#         source.change.emit();
+#         // also update matplotlib image data
+#     }
+
+#     function error_handler(evt) {
+#         if(evt.target.error.name == "NotReadableError") {
+#             alert("Can't read file!");
+#         }
+#     }
+
+#     var input = document.createElement('input');
+#     input.setAttribute('type', 'file');
+#     input.setAttribute('accept', 'image/*')
+#     input.onchange = function(){
+#         if (window.FileReader) { read_image(input.files[0]) }
+#         else { alert('FileReader is not supported in this browser');}
+#     }
+#     input.click();
+#     """
+
+
+# def imageview():
+#     xdim = 100
+#     ydim = 100
+#     source = ColumnDataSource(data=dict(url=[img_url], xdim = [xdim], ydim = [ydim]))
+#     callback = CustomJS(args=dict(source = source, xmax = xmax, ymax = ymax), 
+#                         code = __code__ )
+#     plot = figure(title= "Original Image")
+#     button = Button(label="Upload Image...", callback = callback)
+
+#     plot.image_url(url='url', x = 0, y = 0, w='xdim', h='ydim', source=source)
+#     # imgData = loadImage(file)
+#     # ymax, xmax = imgData.shape[:2]
+#     u.init(plot, xmax, ymax, offset)
+#     def get_data_source():
+#         print source.data['url'];
+
+#     return column(button, plot)
