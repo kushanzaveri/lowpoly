@@ -29,13 +29,6 @@ class ImageView:
             reader.onload = load_handler;
             reader.onerror = error_handler;
             reader.readAsDataURL(file)
-            var anotherOne = new FileReader();
-            anotherOne.onload = other;
-            anotherOne.readAsArrayBuffer(file)
-        }
-        function other(event){
-
-            console.log("AAHH " + event.target.result)
         }
         function getImageDimensions(file) {
             return new Promise (function (resolved, rejected) {
