@@ -47,7 +47,6 @@ class Core:
         points = self.generate_points(width, height, imgData, self.slider.value);
         tri = Delaunay(points)
         self.triangles.data = ds.get_data(tri, imgData)
-        print int(round(time.time() * 1000)) - millis
 
 
 
