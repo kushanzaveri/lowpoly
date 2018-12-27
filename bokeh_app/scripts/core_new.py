@@ -5,14 +5,7 @@ from bokeh.layouts import row, column
 from bokeh.models import Range1d
 from bokeh.models.widgets import Button, Slider, RadioButtonGroup
 from bokeh.models.glyphs import Patches
-import sys
-import os.path
 
-print(sys.path)
-sys.path.append(os.path.join(os.path.dirname(__file__), 'tools'))
-from tools.drawers import get_data
-from tools.utils import adjust_plot, init
-from tools.point_generation import generate_smart_points, generate_uniform_random_points
 
 
 
@@ -39,6 +32,7 @@ class Core:
         self.slider.value = self.numPoints
 
     def generate_points(self, width, height, imgData, numPoints):
+        from .tools.point_generation import generate_smart_points, generate_uniform_random_points
         if self.point_type.active == 0:
             return generate_smart_points(imgData, numPoints)
         return generate_uniform_random_points([height, width], numPoints)
@@ -46,10 +40,12 @@ class Core:
     def processImage(self):
         imgData = self.imgView.img_data
         height, width = imgData.shape[:2]
+        from .tools.utils import adjust_plot
         adjust_plot(self.delMesh, height, width)
         adjust_plot(self.lowPol, height, width)
         points = self.generate_points(width, height, imgData, self.slider.value);
         tri = Delaunay(points)
+        from .tools.drawers import get_data
         self.triangles.data = get_data(tri, imgData)
 
 
@@ -57,6 +53,7 @@ class Core:
     def getView(self):
         button = Button(label="Process...")
         button.on_click(self.processImage)
+        from .tools.utils import init
         init(self.delMesh, self.xmax, self.ymax, self.min_bound)
         init(self.lowPol, self.xmax, self.ymax, self.min_bound)
         self.delMesh.patches(xs = 'xs', ys = 'ys', line_color="#5581CD", fill_alpha=0, source = self.triangles)

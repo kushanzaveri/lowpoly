@@ -6,11 +6,7 @@ from bokeh.models import CustomJS
 from bokeh.models.widgets import Button
 from bokeh.models.widgets.inputs import TextInput
 
-import sys
-import os.path
-
-sys.path.append(os.path.join(os.path.dirname(__file__), 'tools'))
-from tools.utils import loadImage, adjust_plot, init
+from .tools.utils import loadImage, adjust_plot, init
 
 
 
