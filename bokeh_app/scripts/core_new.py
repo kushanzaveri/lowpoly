@@ -5,8 +5,13 @@ from bokeh.layouts import row, column
 from bokeh.models import Range1d
 from bokeh.models.widgets import Button, Slider, RadioButtonGroup
 from bokeh.models.glyphs import Patches
+import os
 
-import drawers as ds
+for root, dirs, files in os.walk("."):  
+    for filename in files:
+        print(filename)
+        
+import .drawers as ds
 import utils as u
 import point_generation as pg
 
