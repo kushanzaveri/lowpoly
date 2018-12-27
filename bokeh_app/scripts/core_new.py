@@ -1,6 +1,6 @@
-import point_generation as pg
 import drawers as ds
 import utils as u
+import point_generation as pg
 import time
 from scipy.spatial import Delaunay
 
