@@ -1,7 +1,3 @@
-import drawers as ds
-import utils as u
-import point_generation as pg
-import time
 from scipy.spatial import Delaunay
 
 from bokeh.plotting import figure, ColumnDataSource
@@ -9,6 +5,11 @@ from bokeh.layouts import row, column
 from bokeh.models import Range1d
 from bokeh.models.widgets import Button, Slider, RadioButtonGroup
 from bokeh.models.glyphs import Patches
+
+import drawers as ds
+import utils as u
+import point_generation as pg
+
 
 
 class Core:
