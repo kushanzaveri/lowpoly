@@ -5,7 +5,10 @@ from bokeh.plotting import figure, ColumnDataSource
 from bokeh.layouts import row, column
 from bokeh.models import CustomJS
 
+import sys
+import os.path
 
+sys.path.append(os.path.join(os.path.dirname(__file__), 'tools'))
 from bokeh.models.widgets import Button
 from bokeh.models.widgets.inputs import TextInput
 

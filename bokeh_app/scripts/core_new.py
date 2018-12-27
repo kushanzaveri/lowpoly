@@ -5,7 +5,10 @@ from bokeh.layouts import row, column
 from bokeh.models import Range1d
 from bokeh.models.widgets import Button, Slider, RadioButtonGroup
 from bokeh.models.glyphs import Patches
+import sys
+import os.path
 
+sys.path.append(os.path.join(os.path.dirname(__file__), 'tools'))
 from tools.drawers import get_data
 from tools.utils import adjust_plot, init
 from tools.point_generation import generate_smart_points, generate_uniform_random_points
