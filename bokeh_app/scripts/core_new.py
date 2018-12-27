@@ -40,7 +40,6 @@ class Core:
         return pg.generate_uniform_random_points([height, width], numPoints)
 
     def processImage(self):
-        millis = int(round(time.time() * 1000))
         imgData = self.imgView.img_data
         height, width = imgData.shape[:2]
         u.adjust_plot(self.delMesh, height, width)
