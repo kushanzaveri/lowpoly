@@ -1,6 +1,5 @@
 import numpy as np
 from skimage import filters, morphology, color
-import matplotlib.pyplot as plt
 
 def generate_edge_points(dims, scale = 200):
     ymax, xmax = dims[:2]
