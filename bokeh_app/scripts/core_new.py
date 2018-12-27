@@ -8,6 +8,7 @@ from bokeh.models.glyphs import Patches
 import sys
 import os.path
 
+print(sys.path)
 sys.path.append(os.path.join(os.path.dirname(__file__), 'tools'))
 from tools.drawers import get_data
 from tools.utils import adjust_plot, init
