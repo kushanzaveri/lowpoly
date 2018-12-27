@@ -5,6 +5,8 @@ from bokeh.layouts import row, column
 from scripts.core_new import Core
 from scripts.imageview import ImageView
 import scripts.utils as u
+import sys
+print(sys.version)
 
 imgView = ImageView()
 imgViewLayout = imgView.getView()
