@@ -1,5 +1,4 @@
-import tools.drawers as ds
-import tools.utils as u
+from tools.utils import loadImage, adjust_plot, init
 import numpy as np
 
 from bokeh.plotting import figure, ColumnDataSource
@@ -74,9 +73,9 @@ class ImageView:
         """
         #text input to pass along image data
         def update(attr, old, new):
-            self.img_data = u.loadImage(new)
+            self.img_data = loadImage(new)
             height, width = self.img_data.shape[:2]
-            u.adjust_plot(self.plot, height, width)
+            adjust_plot(self.plot, height, width)
             self.img_url = new;
 
         textIn = TextInput(value="default")  
@@ -90,7 +89,7 @@ class ImageView:
         
         self.plot.image_url(url='url', x = 0, y = 0, w='xdim', h='ydim', source = self.source)
 
-        u.init(self.plot, self.xmax, self.ymax, self.offset)
+        init(self.plot, self.xmax, self.ymax, self.offset)
     
         return column(button, self.plot)
 
