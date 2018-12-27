@@ -5,8 +5,12 @@ class Wow:
 
     def do(self):
         try:
-            from tools.wew import foo
+            from .tools.wew import foo
             print (foo())
+            import sys
+            print (sys.path)
         except:
+            import sys
+            print (sys.path)
             print ("error!!")
         
