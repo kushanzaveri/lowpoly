@@ -2,4 +2,4 @@ bokeh==1.0.2
 imageio==2.4.1
 scikit-image==0.14.1
 scipy==1.2.0
-numpy==1.6.1
+numpy==1.7.0
