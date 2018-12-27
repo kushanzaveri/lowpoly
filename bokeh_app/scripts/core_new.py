@@ -11,7 +11,7 @@ for root, dirs, files in os.walk("."):
     for filename in files:
         print(filename)
 
-import drawers as ds
+import scripts.drawers as ds
 import utils as u
 import point_generation as pg
 
