@@ -53,7 +53,8 @@ def generate_smart_points(image, num_points=100,
     ranked_pixels = filters.rank.entropy(im_copy, morphology.disk(entropy_width))
 
     points = []
-    for _ in range(num_points):
+    for i in range(num_points):
+        print i
         y, x = np.unravel_index(np.argmax(ranked_pixels), ranked_pixels.shape)
         ranked_pixels -= gaussian_mask(x, y,
                              shape=ranked_pixels.shape[:2],
@@ -62,7 +63,6 @@ def generate_smart_points(image, num_points=100,
         points.append((x, y))
 
     points = np.array(points)
-    points = np.concatenate([points, generate_edge_points([xmax, ymax])])
     return points
 
 

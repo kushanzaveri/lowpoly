@@ -1,5 +1,5 @@
 from bokeh.io import curdoc
-from bokeh.models.widgets import Tabs, Button
+from bokeh.models.widgets import Button
 from bokeh.layouts import row, column
 
 from scripts.core_new import Core

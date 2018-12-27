@@ -14,12 +14,17 @@ from bokeh.models.widgets.inputs import TextInput
 class ImageView:
     xmax = 1024
     ymax = 1024
-    img_url = "hkjh"
+    img_url = "default"
+    img_data = None
     offset = 50
     source = ColumnDataSource(data=dict(url=[img_url], xdim = [0], ydim = [0]))
+    plot = figure(title= "Original Image")
 
-    def getName(self):
-        return self.img_url
+    # def getName(self):
+    #     return self.img_url
+
+    # def getData(self):
+    #     return self.img_data
 
     def getView(self):
         __code__ = """ 
@@ -34,8 +39,7 @@ class ImageView:
                 var i = new Image()
                 i.onload = function(){
                     resolved(
-                        {w: xmax, 
-                         h: ymax * (i.height/i.width)}
+                        {w: i.width, h: i.height}
                     )
                 };
                 i.src = file
@@ -44,10 +48,7 @@ class ImageView:
 
         async function load_handler(event) {
             var b64string = event.target.result;
-            var dimensions = await getImageDimensions(b64string)
-            console.log(dimensions.w + " " + dimensions.h + " " + (dimensions.h/dimensions.w))
-            
-            console.log(dimensions.w + " " + dimensions.h + " " + (dimensions.h/dimensions.w))
+            var dimensions = await getImageDimensions(b64string)            
             source.data['xdim'] = [dimensions.w];
             source.data['ydim'] = [dimensions.h];
             source.data['url'] = [b64string];
@@ -73,21 +74,25 @@ class ImageView:
         """
         #text input to pass along image data
         def update(attr, old, new):
+            self.img_data = u.loadImage(new)
+            height, width = self.img_data.shape[:2]
+            u.adjust_plot(self.plot, height, width)
             self.img_url = new;
+
         textIn = TextInput(value="default")  
         textIn.on_change('value', update)
 
         callback = CustomJS(args=dict(source = self.source, xmax = self.xmax, ymax = self.ymax, trigger = textIn), 
                             code = __code__ )
-        plot = figure(title= "Original Image")
         button = Button(label="Upload Image...", callback = callback)
-
         
-        plot.image_url(url='url', x = 0, y = 0, w='xdim', h='ydim', source = self.source)
+        
+        
+        self.plot.image_url(url='url', x = 0, y = 0, w='xdim', h='ydim', source = self.source)
 
-        u.init(plot, self.xmax, self.ymax, self.offset)
+        u.init(self.plot, self.xmax, self.ymax, self.offset)
     
-        return column(button, plot)
+        return column(button, self.plot)
 
 
 

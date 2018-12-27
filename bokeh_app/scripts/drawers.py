@@ -1,4 +1,4 @@
-from bokeh.plotting import figure
+from bokeh.plotting import figure, ColumnDataSource
 import numpy as np
 import pandas as pd
 import random
@@ -43,6 +43,13 @@ def get_triangle_colours(tri, imgData, agg_func=np.median):
         # some triangles might not have pixels in them
     )
     return map(lambda i: "rgb(%d,%d,%d)" % (i[0], i[1], i[2]), by_triangle.values)
+
+
+def get_data(tri, imgData):
+    x = get_x_coords(tri.points, tri.simplices)
+    y = get_y_coords(tri.points, tri.simplices)
+    colours = get_triangle_colours(tri, imgData)
+    return dict(xs = x, ys = y, colours = colours)
 
 def draw_delaunay(p, points, simplices):
     x = get_x_coords(points, simplices)
