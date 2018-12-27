@@ -14,3 +14,9 @@ button = Button(label="HEROKU!!!")
 
 # curdoc().add_root(row(imgViewLayout, coreLayout))
 curdoc().add_root(button)
+try:
+    from scripts.wow import Wow
+    cool = Wow(3)
+    cool.do()
+except:
+    print ("Couldn't import scripts!!")
