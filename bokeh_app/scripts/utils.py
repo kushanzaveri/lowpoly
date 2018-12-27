@@ -14,7 +14,7 @@ def init(plot, xmax, ymax, offset):
     plot.y_range = Range1d(startY, offset)
     plot.height = height
     plot.width = width
-    # plot.axis.visible = False
+    plot.axis.visible = False
     plot.toolbar.logo = None
     plot.toolbar.active_drag = None
     plot.xgrid.grid_line_color = None
@@ -28,14 +28,11 @@ def adjust_plot(plot, height, width):
         plot.y_range.start = -height - max_bound
         plot.y_range.end = max_bound
     else:
-        # not done
         plot.y_range.start = -height - min_bound
         plot.y_range.end = min_bound 
         max_bound = ((height+ 2 * min_bound) - width)/2
         plot.x_range.start = -max_bound
         plot.x_range.end = width + max_bound
-        # plot.y_range.start = -height - offset
-        # plot.x_range.end = height + offset
 
 
 def default(value, default_value):

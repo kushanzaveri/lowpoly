@@ -15,7 +15,7 @@ class Core:
 
     delMesh = figure(title = "Delaunay Mesh")
     lowPol = figure(title = "Low Poly Image")
-    slider = Slider(start=10, end=500, value=10, step=1, title="Number of Triangles")
+    slider = Slider(start=10, end=10000, value=10, step=1, title="Number of Triangles")
     point_type = RadioButtonGroup(
         labels=["Smart Points", "Random Points"], active=1)
     
@@ -32,10 +32,6 @@ class Core:
         self.xmax = xmax
         self.min_bound = min_bound
         self.slider.value = self.numPoints
-        
-    
-    def clearPlots(self):
-        return 3;
 
     def generate_points(self, width, height, imgData, numPoints):
         if self.point_type.active == 0:

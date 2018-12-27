@@ -48,13 +48,15 @@ def generate_smart_points(image, num_points=100,
     suppression_width = scale * default(suppression_width, 0.3)
     suppression_amplitude = default(suppression_amplitude, 3)
 
-    im_copy = (255 * color.rgb2gray(image)).astype("uint8")
-
+    im_copy = color.rgb2gray(image)
+    im_copy = (
+        255 * filters.gaussian(im_copy, sigma=filter_width, multichannel=True)
+    ).astype("uint8")
     ranked_pixels = filters.rank.entropy(im_copy, morphology.disk(entropy_width))
 
     points = []
     for i in range(num_points):
-        print i
+        # print i
         y, x = np.unravel_index(np.argmax(ranked_pixels), ranked_pixels.shape)
         ranked_pixels -= gaussian_mask(x, y,
                              shape=ranked_pixels.shape[:2],
@@ -63,40 +65,7 @@ def generate_smart_points(image, num_points=100,
         points.append((x, y))
 
     points = np.array(points)
+
+    points = np.concatenate([points, generate_edge_points([ymax, xmax])])
+    
     return points
-
-
-
-
-    # # calculate length scale
-    # ymax, xmax = image.shape[:2]
-    # scale = np.sqrt(xmax*ymax / n_points)
-    # entropy_width = scale * default(entropy_width, 0.2)
-    # filter_width = scale * default(filter_width, 0.1)
-    # suppression_width = scale * default(suppression_width, 0.3)
-    # suppression_amplitude = default(suppression_amplitude, 3)
-    #
-    # # convert to grayscale
-    # im2 = color.rgb2gray(image)
-    #
-    # # filter
-    # im2 = (
-    #     255 * filters.gaussian(im2, sigma=filter_width, multichannel=True)
-    # ).astype("uint8")
-    #
-    # # calculate entropy
-    # im2 = filters.rank.entropy(im2, morphology.disk(entropy_width))
-    #
-    # points = []
-    # for _ in range(n_points):
-    #     y, x = np.unravel_index(np.argmax(im2), im2.shape)
-    #     im2 -= gaussian_mask(x, y,
-    #                          shape=im2.shape[:2],
-    #                          amp=suppression_amplitude,
-    #                          sigma=suppression_width)
-    #     points.append((x, y))
-    #
-    # points = np.array(points)
-    # points = np.concatenate([points, generate_edge_points([xmax, ymax])])
-    #
-    # return points
