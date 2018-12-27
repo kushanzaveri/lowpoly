@@ -1,16 +1,12 @@
+import tools.drawers as d
+import matplotlib.image as mpimg
+from scipy.spatial import Delaunay
+import tools.point_generation as pg
+import tools.drawers as d
+file = "../../../images/face.jpg"
 
-class Wow:
-    def __init__(self, num):
-        self.num = num
+img = mpimg.imread(file)
+points = pg.generate_uniform_random_points(img.shape[:2], 5)
+tri = Delaunay(points)
 
-    def do(self):
-        try:
-            from .tools.wew import foo
-            print (foo())
-            import sys
-            print (sys.path)
-        except:
-            import sys
-            print (sys.path)
-            print ("error!!")
-        
+d.get_triangle_colours(tri, img)
