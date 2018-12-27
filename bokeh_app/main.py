@@ -2,9 +2,8 @@ from bokeh.io import curdoc
 from bokeh.models.widgets import Button
 from bokeh.layouts import row, column
 
-from core_new import Core
-from imageview import ImageView
-import utils as u
+from scripts.core_new import Core
+from scripts.imageview import ImageView
 
 imgView = ImageView()
 imgViewLayout = imgView.getView()
