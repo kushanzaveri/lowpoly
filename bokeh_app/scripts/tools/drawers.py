@@ -1,8 +1,7 @@
 from bokeh.plotting import figure, ColumnDataSource
 import numpy as np
-import random
-import time
 import pandas as pd
+import random
  
 def draw_image_url(p, url, imgData):
     ymax, xmax = imgData.shape[:2]
@@ -43,6 +42,7 @@ def get_triangle_colours(tri, imgData, agg_func=np.median):
           .reindex(range(n_triangles), fill_value=0)
         # some triangles might not have pixels in them
     )
+    
     return map(lambda i: "rgb(%d,%d,%d)" % (i[0], i[1], i[2]), by_triangle.values)
 
 
