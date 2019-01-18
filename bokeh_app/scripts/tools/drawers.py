@@ -2,6 +2,7 @@ from bokeh.plotting import figure, ColumnDataSource
 import numpy as np
 import random
 import time
+import pandas as pd
  
 def draw_image_url(p, url, imgData):
     ymax, xmax = imgData.shape[:2]
@@ -11,12 +12,10 @@ def draw_points(p, points):
     p.scatter(x = points[:,0], y = points[:,1], fill_color="#00FF00", line_color="#00FF00")
 
 def get_x_coords(points, simplices):
-    ret = list(map(lambda i : list(map(lambda j : j[0], points[i])), simplices))
-    return ret
+    return map(lambda i : map(lambda j : j[0], points[i]), simplices)
 
 def get_y_coords(points, simplices):
-    ret = list(map(lambda i : list(map(lambda j : -j[1], points[i])), simplices))
-    return ret
+    return map(lambda i : map(lambda j : -j[1], points[i]), simplices)
 
 
 def get_triangle_colours(tri, imgData, agg_func=np.median):
@@ -27,16 +26,24 @@ def get_triangle_colours(tri, imgData, agg_func=np.median):
     
     # for each pixel, identify which triangle it belongs to
     triangles_for_coord = tri.find_simplex(pixel_coords)
-    combRed = np.stack(arrays=(triangles_for_coord, imgData.reshape(-1, 3)[:, 0]), axis = -1)
-    combGreen = np.stack(arrays=(triangles_for_coord, imgData.reshape(-1, 3)[:, 1]), axis = -1)
-    combBlue = np.stack(arrays=(triangles_for_coord, imgData.reshape(-1, 3)[:, 2]), axis = -1)
-    import numpy_indexed as npi
-    reds =  (npi.group_by(combRed[:, 0]).median(combRed[:, 1])[1])
-    greens = (npi.group_by(combGreen[:, 0]).median(combGreen[:, 1])[1])
-    blues = (npi.group_by(combBlue[:, 0]).median(combBlue[:, 1])[1])
-    by_triangle = np.stack(arrays=(reds, greens, blues), axis = -1)
-    ret = list(map(lambda i: "rgb(%d,%d,%d)" % (i[0], i[1], i[2]), by_triangle))
-    return ret
+
+    df = pd.DataFrame({
+        "triangle": triangles_for_coord,
+        "r": imgData.reshape(-1, 3)[:, 0],
+        "g": imgData.reshape(-1, 3)[:, 1],
+        "b": imgData.reshape(-1, 3)[:, 2]
+    })
+
+
+    n_triangles = tri.vertices.shape[0]
+
+    by_triangle = (
+        df.groupby("triangle")[["r", "g", "b"]]
+          .aggregate(agg_func)
+          .reindex(range(n_triangles), fill_value=0)
+        # some triangles might not have pixels in them
+    )
+    return map(lambda i: "rgb(%d,%d,%d)" % (i[0], i[1], i[2]), by_triangle.values)
 
 
 def get_data(tri, imgData):

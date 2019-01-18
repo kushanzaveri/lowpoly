@@ -38,11 +38,15 @@ class Core:
         return generate_uniform_random_points([height, width], numPoints)
 
     def processImage(self):
+        import sys
+        print(sys.version)
         imgData = self.imgView.img_data
         height, width = imgData.shape[:2]
         from .tools.utils import adjust_plot
+        print ("Adjusting plot")
         adjust_plot(self.delMesh, height, width)
         adjust_plot(self.lowPol, height, width)
+        print ("Generating points")
         points = self.generate_points(width, height, imgData, self.slider.value);
         tri = Delaunay(points)
         from .tools.drawers import get_data
