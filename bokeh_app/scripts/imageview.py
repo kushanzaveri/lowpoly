@@ -75,6 +75,7 @@ class ImageView:
         def update(attr, old, new):
             self.img_data = loadImage(new)
             height, width = self.img_data.shape[:2]
+            print (self.img_data.shape)
             adjust_plot(self.plot, height, width)
             self.img_url = new;
 
